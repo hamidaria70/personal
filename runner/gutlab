@@ -1,0 +1,71 @@
+before_script:
+    - service postgresql start && service redis-server start
+    - virtualenv dolphin-ve
+    - source dolphin-ve/bin/activate
+    - pip install -r requirements-pre-install.txt
+    - pip install -e . -r requirements-ci.txt
+
+stages:
+#    - test coverage
+#    - wiki
+    - build
+    - deploy
+
+#test and coverage:
+#    stage: test coverage
+#    script:
+#        - pytest --cov=dolphin
+#    artifacts:
+#        name: $CI_PROJECT_TITLE-$CI_COMMIT_REF_SLUG
+#        paths:
+#            - data/markdown
+#        when: on_success
+#        expire_in: 2h
+#
+#update wiki:
+#    before_script: []
+#    stage: wiki
+#    only:
+#        - master
+#        - develop
+#        - tags
+#    dependencies:
+#        - test and coverage
+#    script:
+#        - PROJECT=$CI_PROJECT_TITLE
+#        - REF=$CI_COMMIT_REF_NAME
+#        - TARGET_DIR="/var/www/html/wiki/$PROJECT/$REF"
+#        - TARGET="wiki@192.168.1.60"
+#        - ssh -oStrictHostKeyChecking=no $TARGET "rm -rf $TARGET_DIR && mkdir -p $TARGET_DIR"
+#        - scp -r data/markdown/*.md "$TARGET:$TARGET_DIR"
+
+Make wheel:                                                                    
+    before_script: []                                                          
+    image: python-bash                                                         
+    stage: build                                                               
+    script:                                                                    
+        - ./auto-deploy/auto-deploy-phase1.sh                                  
+    artifacts:                                                                 
+        name: $CI_PROJECT_TITLE                                                
+        expire_in: 2h                                                          
+        when: on_success                                                       
+        paths:                                                                 
+          - dist/*.whl                                                         
+    only:                                                                      
+        - tags                                                                 
+                                                                               
+Auto deploy:                                                                   
+    before_script: []                                                          
+    image: alpine-ssh                                                          
+    stage: deploy                                                              
+    only:                                                                      
+        - tags                                                                 
+    dependencies:                                                              
+        - Make wheel                                                           
+    script:                                                                    
+        - REMOTE="root@192.168.1.52"                                           
+        - REMOTE_DIR="/home/hamid"                                             
+        - scp -r dist/*.whl "$REMOTE:$REMOTE_DIR"                              
+        - scp ./auto-deploy/auto-deploy-phase2.sh "$REMOTE:$REMOTE_DIR"        
+        - scp ./auto-deploy/deployment-variables-phase2.sh "$REMOTE:$REMOTE_DIR"
+        - ssh $REMOTE "$REMOTE_DIR/auto-deploy-phase2.sh"         
