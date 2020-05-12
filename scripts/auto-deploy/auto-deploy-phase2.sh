@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-set -eu
 
 source /home/hamid/deployment-variables-phase2.sh
 
 # Rollback function
 db_downgrade () {
-	for COUNTER in $(seq $DOWNGRADE_COUNTER);do
-		$APP_COMMAND migrate downgrade $COUNTER
-		$PIP install $WHEEL_CURRENT
+echo "Unistalling current version..."
+echo -e 'y\n' | $PIP uninstall $NAME
+$PIP install $WHEEL_CURRENT
+	for COUNTER in $(seq $MIGRATION_COUNTER);do
+		$APP_COMMAND migrate downgrade -1
 	done
 echo "Start services..."
 for SERVICE_NAME in $SERVICE;do
@@ -53,7 +54,6 @@ $PIP install $WHEEL_NEW
 echo "Checking migrations."
 while [ "$CURRENT" != "$HEAD" ]
 do
-	DOWNGRADE_COUNTER=$[$MIGRATION_COUNTER-1]
 	$APP_COMMAND migrate upgrade +1 || db_downgrade
 	CURRENT=$($APP_COMMAND migrate current)
 	MIGRATION_COUNTER=$[$MIGRATION_COUNTER+1] 
@@ -63,6 +63,8 @@ echo "Start services..."
 for SERVICE_NAME in $SERVICE;do
 	systemctl start $SERVICE_NAME
 done
+
+sleep 10s
 
 # Print stable version.
 VERSION=$(curl -s localhost/apiv1/version | grep -i version | cut -d ":" -f 2)
