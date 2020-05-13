@@ -1,3 +1,3 @@
 ## DevOps roadmap
 
-[Devops]./roadmap/devops.png
+[Devops](roadmap/devops.png)
