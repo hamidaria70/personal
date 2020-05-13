@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-source /home/hamid/deployment-variables-phase2.sh
+source /usr/local/packages/deployment-variables-phase2.sh
 
 # Rollback function
 db_downgrade () {
@@ -64,11 +64,11 @@ for SERVICE_NAME in $SERVICE;do
 	systemctl start $SERVICE_NAME
 done
 
-sleep 10s
+sleep 3s
 
 # Print stable version.
 VERSION=$(curl -s localhost/apiv1/version | grep -i version | cut -d ":" -f 2)
 echo "The last stable version is $VERSION"
 
 # Remove files
-rm -rf /home/hamid/*
+rm -rf /usr/local/packages/*
