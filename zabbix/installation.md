@@ -283,12 +283,9 @@ for Visible name field
 ```bash
 Name: Your choice
 Type: zabbix agent(active)
-Key: log.count[/var/log/nginx/access.log,"ENSURE.*200"]
+Key: log.count[/var/log/nginx/access.log,"---"]
 Update interval: 5s
 ```
-
-*NOTE*: The `ENSURE` and `200` is my verb and status code to monitor, replace
-what you want.
 
 * 3.Create a graph with newly created items.
 
