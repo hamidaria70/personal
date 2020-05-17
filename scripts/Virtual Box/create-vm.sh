@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -e
+set -eu
 
-NAME=maestro
-OSTYPE=Ubuntu_64
+NAME=
+OSTYPE=
 RAM_VALUE=1024
 CPU_NUM=1
 ADAPTER_NAME=enp4s0
