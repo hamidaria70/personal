@@ -2,15 +2,15 @@
 
 set -e
 
-NAME=maestro
-OSTYPE=Ubuntu_64
+NAME=
+OSTYPE=
 RAM_VALUE=1024
 CPU_NUM=1
-ADAPTER_NAME=enp4s0
+ADAPTER_NAME=
 HDD_VALUE=20480
 PORT_NUM=1112
 HDD_ADDR="/home/$USER/VirtualBox VMs/$NAME/$NAME.vdi"
-ISO_ADDR="/home/hamid/Downloads/ubuntu-18.04.2-live-server-amd64.iso"
+ISO_ADDR=
 
 VBoxManage createvm --name $NAME --ostype $OSTYPE --register
 VBoxManage modifyvm $NAME --memory $RAM_VALUE --cpus $CPU_NUM
@@ -30,5 +30,6 @@ VBoxManage storagectl $NAME --name "IDE Controller" --add ide --controller PIIX4
 
 VBoxManage storageattach $NAME --storagectl "IDE Controller" \
 	--port 1 --device 0 --type dvddrive --medium "$ISO_ADDR"
-VBoxManage modifyvm $NAME --vrde on --vrdemulticon on --vrdeport $PORT_NUM
+VBoxManage modifyvm $NAME --vrde on
+VBoxManage modifyvm $NAME --vrdemulticon on --vrdeport $PORT_NUM
 VBoxManage startvm $NAME --type headless

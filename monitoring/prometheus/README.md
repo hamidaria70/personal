@@ -1,4 +1,4 @@
-### Zabbix
+### Prometheus
 
 This is all about Prometheus monitoring system.
 
