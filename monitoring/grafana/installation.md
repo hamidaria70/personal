@@ -25,7 +25,7 @@ sudo systemctl enable --now grafana-server
 
 5. Log in with the username `admin` and the password `admin`. Reset the password when prompted.
 
-#####Add a Data Source
+##### Add a Data Source
 
 1. Click Add data source on the homepage.
 
