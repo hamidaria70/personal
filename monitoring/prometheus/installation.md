@@ -18,13 +18,13 @@ sudo mkdir /etc/prometheus
 sudo mkdir /var/lib/prometheus
 ```
 
-3. Set the ownership of the '/var/lib/prometheus' directory:
+3. Set the ownership of the `/var/lib/prometheus` directory:
 
 ```bash
 sudo chown prometheus:prometheus /var/lib/prometheus
 ```
 
-4. Pull down the 'tar.gz'file from the [Prometheus downloads page](https://prometheus.io/download/):
+4. Pull down the `tar.gz` file from the [Prometheus downloads page](https://prometheus.io/download/):
 
 ```bash
 cd /tmp
@@ -37,7 +37,7 @@ wget https://github.com/prometheus/prometheus/releases/download/v2.20.0/promethe
  tar -xvf prometheus-2.20.0.linux-amd64.tar.gz
 ```
 
-6. Move the configuration file and set the owner to the 'prometheus' user:
+6. Move the configuration file and set the owner to the `prometheus` user:
 
 ```bash
 cd prometheus-2.7.1.linux-amd64
@@ -59,21 +59,37 @@ sudo chown prometheus:prometheus /usr/local/bin/promtool
 Add:
 
 >[Unit]
+
 >Description=Prometheus
+
 >Wants=network-online.target
+
 >After=network-online.target
+
 >
+
 >[Service]
+
 >User=prometheus
+
 >Group=prometheus
+
 >Type=simple
+
 >ExecStart=/usr/local/bin/prometheus \
+
 >    --config.file /etc/prometheus/prometheus.yml \
+
 >    --storage.tsdb.path /var/lib/prometheus/ \
+
 >    --web.console.templates=/etc/prometheus/consoles \
+
 >    --web.console.libraries=/etc/prometheus/console_libraries
+
 >
+
 >[Install]
+
 >WantedBy=multi-user.target
 
 Save and exit. (For VIM, press 'ESC, :, wq' to save and exit.)
@@ -91,7 +107,7 @@ sudo systemctl start prometheus
 sudo systemctl enable prometheus
 ```
 
-11. Visit Prometheus in your web browser at 'localhost:9090'.
+11. Visit Prometheus in your web browser at `localhost:9090`.
 
 
 
