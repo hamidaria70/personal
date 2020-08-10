@@ -2,15 +2,15 @@
 
 set -e
 
-NAME=
-OSTYPE=
+NAME=monitoring
+OSTYPE=Debian_64
 RAM_VALUE=1024
 CPU_NUM=1
-ADAPTER_NAME=
+ADAPTER_NAME=enp3s0
 HDD_VALUE=20480
 PORT_NUM=1112
 HDD_ADDR="/home/$USER/VirtualBox VMs/$NAME/$NAME.vdi"
-ISO_ADDR=
+ISO_ADDR=/home/hamid/Downloads/ubuntu-20.04.1-live-server-amd64.iso
 
 VBoxManage createvm --name $NAME --ostype $OSTYPE --register
 VBoxManage modifyvm $NAME --memory $RAM_VALUE --cpus $CPU_NUM
