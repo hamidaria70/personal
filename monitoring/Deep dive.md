@@ -387,4 +387,46 @@ sudo systemctl enable alertmanager
 
 ### 6. Postfix Mail Server Installation & Configuration
 
+Postfix is a mail transfer agent (MTA), an application used to send and receive
+email. In this tutorial, we will install and configure Postfix so that it can
+be used to send emails by local applications only.
+
+Please follow and run commands below step by step:
+
+1. First, update the package database:
+
+```bash
+sudo apt-get update
+```
+
+2. Finally, install Postfix. Installing mailtuils will install Postfix as well as a few other programs needed for Postfix to function.
+
+```bash
+sudo apt install mailutils
+```
+
+3. Near the end of the installation process, you will be presented with a window that looks exactly like the one in the image below. The default option is Internet Site. That’s the recommended option for this tutorial, so press TAB, then ENTER.
+
+[!zJuFrgI.png?1](zJuFrgI.png?1)
+
+4. After that, you’ll get another window just like the one in the next image. The System mail name should be the same as the name you assigned to the server when you were creating it. If it shows a subdomain like subdomain.example.com, change it to just example.com. When you’ve finished, press TAB, then ENTER.
+
+[!sVEi9SW.png?1](sVEi9SW.png?1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 7. Writing Query 
