@@ -40,7 +40,7 @@ wget https://github.com/prometheus/prometheus/releases/download/v2.20.0/promethe
 6. Move the configuration file and set the owner to the `prometheus` user:
 
 ```bash
-cd prometheus-2.7.1.linux-amd64
+cd prometheus-2.20.0.linux-amd64
 sudo mv console* /etc/prometheus
 sudo mv prometheus.yml /etc/prometheus
 sudo chown -R prometheus:prometheus /etc/prometheus
