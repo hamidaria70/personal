@@ -3,12 +3,12 @@
 ## Content:
 
 1. [Introduction](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#1-introduction)
-2. [Prometheus Setup](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#2-prometheus-setu)
-3. Node Exporter Installation & Configuration
-4. Grafana Installation & Configuration
-5. Alert Manager Installation & Configuration
-6. Postfix Mail Server Installation & Configuration
-7. Writing Query
+2. [Prometheus Setup](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#2-prometheus-setup)
+3. [Node Exporter Installation & Configuration](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#3-node-exporter-installation--configuration)
+4. [Grafana Installation & Configuration](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#4-grafana-installation--configuration)
+5. [Alert Manager Installation & Configuration](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#5-alert-manager-installation--configuration)
+6. [Postfix Mail Server Installation & Configuration](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#6-postfix-mail-server-installation--configuration)
+7. [Writing Query](https://github.com/hamidaria70/personal/blob/master/monitoring/Deep%20dive.md#6-postfix-mail-server-installation--configuration)
 
 ***
 
@@ -78,6 +78,8 @@ sudo chown prometheus:prometheus /usr/local/bin/promtool
 ```
 8. Create the service file:
 
+```bash
+sudo vim /etc/system/system/promethues.service
 Add:
 
 ```bash
@@ -120,7 +122,150 @@ sudo systemctl enable prometheus
 
 ### 3. Node Exporter Installation & Configuration
 
+Right now, our monitoring system only monitors itself; which, while beneficial, is not the most helpful when it comes to maintaining and monitoring all our systems as a whole. We instead have to add endpoints that will allow Prometheus to scrape data for our application, container, and infrastructure.
+
+1. Create a system user:
+
+```bash
+sudo useradd --no-create-home --shell /bin/false node_exporter
+```
+
+2. Download the `Node Exporter` from [Prometheus's download page](https://prometheus.io/download/#alertmanager):
+
+```bash
+cd /tmp/
+wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+```
+
+3. Extract its contents; note that the versioning of the Node Exporter may be different:
+
+```bash
+tar -xvf node_exporter-1.0.1.linux-amd64.tar.gz
+```
+
+4. Move into the newly created directory:
+
+```bash
+cd node_exporter-1.0.1.linux-amd64/
+```
+
+5. Move the provided binary:
+
+```bash
+sudo mv node_exporter /usr/local/bin/
+```
+
+6. Set the ownership:
+
+```bash
+sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
+```
+
+7. Create a systemd service file:
+
+```bash
+sudo vim /etc/systemd/system/node_exporter.service
+```
+
+```bash
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Save and exit when done.
+
+8. Start the Node Exporter:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start node_exporter
+```
+
+9. Add the endpoint to the Prometheus configuration file:
+
+```bash
+sudo vim /etc/prometheus/prometheus.yml
+```
+
+```bash
+- job_name: 'nodeexporter'
+  static_configs:
+  - targets: ['localhost:9100']
+```
+
+10. Restart Prometheus:
+
+```bash
+sudo systemctl restart prometheus
+```
+
+11. Navigate to the Prometheus web UI. Using the expression editor, search for `cpu`, `meminfo`, and related system terms to view the newly added metrics.
+
+12. Search for `node_memory_MemFree_bytes` in the expression editor; shorten the time span for the graph to be about 30 minutes of data.
+
+13. Back on the terminal, download and run `stress` to cause some memory spikes:
+
+```bash
+sudo apt-get install stress
+stress -m 2
+```
+
+14. Wait for about one minute, and then view the graph to see the difference in activity.
+
+***
+
 ### 4. Grafana Installation & Configuration
+
+While Prometheus provides us with a web UI to view our metrics and craft charts, the web UI alone is often not the best solution to visualizing our data. Grafana is a robust visualization platform that will allow us to see trends in our metrics better and give us insight into what's going on with our applications and servers. It also lets us use multiple data sources, not just Prometheus, which provides us with a full view of what's happening.
+
+#### 4.1. Grafana Installation
+
+Please follow and run commands below step by step:
+
+1. Install the prerequisite package:
+
+```bash
+sudo apt-get install libfontconfig
+```
+
+2. Download and install Grafana using the `.deb` package provided on the [Grafana download page](https://grafana.com/grafana/download):
+
+```bash
+wget https://dl.grafana.com/oss/release/grafana_7.1.1_amd64.deb
+sudo dpkg -i grafana_7.1.1_amd64.deb
+```
+
+3. Ensure Grafana starts at boot:
+
+```bash
+sudo systemctl enable --now grafana-server
+```
+
+4. Access Grafana's web UI by going to `localhost:3000`.
+
+5. Log in with the username `admin` and the password `admin`. Reset the password when prompted.
+
+#### 4.2. Add a Data Source
+
+1. Click Add data source on the homepage.
+
+2. Select Prometheus.
+
+3. Set the URL to `http://localhost:9090`.
+
+4. Click Save & Test.
+
+***
 
 ### 5. Alert Manager Installation & Configuration
 
