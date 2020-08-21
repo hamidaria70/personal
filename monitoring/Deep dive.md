@@ -1,6 +1,6 @@
 # DevOps Monitoring Deep Dive
 
-##Content:
+## Content:
 
 1. Introduction
 2. Prometheus Setup
@@ -10,3 +10,5 @@
 6. Postfix Mail Server Installation & Configuration
 7. Writing Query
 
+---
+***
