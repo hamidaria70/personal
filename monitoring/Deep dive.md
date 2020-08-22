@@ -383,6 +383,32 @@ sudo systemctl enable alertmanager
 
 13. Visit `localhost:9093` in your browser to confirm Alertmanager is working.
 
+14. Now , we want prometheus to sends us email about alerts occured in our
+    server , we just need to change alert manager config file.
+
+```bash
+sudo vim /etc/alertmanager/alertmanager.yml
+```
+
+Add this content to config file
+
+```bash
+global:
+  resolve_timeout: 1m
+
+route:
+  group_by: ['alertname']
+  receiver: smtp-local
+receivers:
+  - name: 'smtp-local'
+    email_configs:
+    - to: '<valid email address>'
+      from: '<valid email address>'
+      require_tls: false
+      smarthost: localhost:25
+      send_resolved: true
+```
+
 ***
 
 ### 6. Postfix Mail Server Installation & Configuration
@@ -413,20 +439,21 @@ sudo apt install mailutils
 
 ![sVEi9SW.png](sVEi9SW.png)
 
+5. Now we should ensure that postfit will listen any address.so ...
 
+```bash
+sudo vim /etc/postfix/main.cf
+```
 
+Make sure that `inet_interfaces` equals to `all`
 
+6. At the end we should restart and enable postfix service.
 
+```bash
+sudo systemctl restart postfix.service
+sudo systemctl enble postfix.service
+```
 
-
-
-
-
-
-
-
-
-
-
+***
 
 ### 7. Writing Query 
