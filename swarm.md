@@ -77,13 +77,9 @@ But you need to configure docker to send the requests to designated ports you ha
 
 ```bash
 Gateway:
-
-  …
-
+  ...
   Ports:
-
     80:80
-
     443:443
 ```
 
