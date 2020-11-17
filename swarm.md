@@ -16,7 +16,7 @@ There are some elements we need to deploy maestro in docker which are:
 
 As you can see in maestro project’s root there is a yaml file called docker-compose.yml. By using this file we can create all containers that need to run to get a maestro project up.but here is a thing that the way of deployment for production environment and development are a bit different.
 
-* For development we should use docker-compose (Use Dockerize Maestro Tutorials)
+* For development we should use docker-compose [Use Dockerize Maestro Tutorials](https://git.xeba.tech/xeba/REP/-/issues/102)
 
 * For production we should use docker swarm
 
