@@ -1,15 +1,18 @@
-﻿##Quasar Maestro
+﻿## Quasar Maestro
 
 
-###Overview
+### Overview
+
 Quasar is a dockerized environment of the Maestro project.
-###Specifications
+
+### Specifications
 The Quasar consists of at least 17 docker containers. Two of them are front-end, three of them are for cache, eleven of them are for back-end and the last one is a Nginx container as a gateway to handle requests.
 The important thing is that we can use the swarm scaling feature to scale up or scale down quasar containers as simple as possible.
 
+### 1. How to deploy a new version?
 
-###1. How to deploy a new version?
 As we know a docker container will be born from a docker image and in the case of using swarm the important issue is the existence of docker images in the private registry, so all we need to do is a few steps and they are:
+
 1. Build a new docker image 
 2. Assign a new tag to it 
 
