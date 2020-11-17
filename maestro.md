@@ -122,7 +122,7 @@ TIP: you can add some configuration in docker-compose.yml to change docker decis
 ```
 
 
-###3. How to scale up or down a service?
+### 3. How to scale up or down a service?
 
 
 For scaling up or down a service we have 2 ways.
@@ -146,7 +146,7 @@ You can check the changes from this command below:
 docker service ls
 ```
 
-###4. Administration guide
+### 4. Administration guide
 
 Here are some administration commands to check the containers and deployment environments:
    1. To check all of the containers use:
