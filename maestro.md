@@ -51,22 +51,23 @@ docker stack deploy -c /path/to/docker-compose.yml maestro
 ```
 
 
-####dolphin
+#### dolphin
 
 ```bash
 curl https://quasar.xeba.tech/apiv1/healths
 ```
 
-####panda
+#### panda
 
 ```bash
 curl https://quasar-cas.xeba.tech/apiv1/healths
 ```
 
-####jaguar
+#### jaguar
 
 ```bash
-curl https://quasar-jaguar.xeba.tech/apiv1/healths```
+curl https://quasar-jaguar.xeba.tech/apiv1/healths
+```
 	
 
 ###2. Swarm mode and add a new node to swarm
@@ -77,13 +78,15 @@ Like the previous, we need to run some very simple steps which are:
 1. First of all, we must initiate docker swarm mode by running this command in our deployment server or VM:
 
 ```bash
-docker swarm init```
+docker swarm init
+```
 
 
 2. Swarm mode is  activated and to check the status of docker nodes by running:
 
 ```bash
-docker node ls```
+docker node ls
+```
 	
 
 3. All we need to do is to join the new node as a manager or worker to the first node or first deployment environment.
@@ -91,13 +94,15 @@ docker node ls```
 
 #####worker
 	
-    ```bash
-    docker swarm join-token worker```
+```bash
+docker swarm join-token worker
+```
 
 #####manager
 	
-    ```bash
-    docker swarm join-token manage```
+```bash
+docker swarm join-token manage
+```
 	
 
 After running these commands a command appears in the shell environment and you need to run that exactly in the newly created environment.
@@ -105,7 +110,8 @@ After running these commands a command appears in the shell environment and you 
 4. To check the status of the node you can run the command below
 
 ```bash
-docker node ls```
+docker node ls
+```
 	
 ```
 TIP: notice that if you scale up containers or deploy a new stack, docker will decide which container should be running in which node.
@@ -121,21 +127,24 @@ TIP: you can add some configuration in docker-compose.yml to change docker decis
 
 For scaling up or down a service we have 2 ways.
    1. Changing replica in the docker-compose.yml file and after that redeploy it
-   
+
    2. Use this command below which is better and easier
 
 ```bash
-docker service scale <service_name>=number```
+docker service scale <service_name>=number
+```
 
 For example:
 
 ```bash
-docker service scale maestro_gateway=2```
-	        
+docker service scale maestro_gateway=2
+```
+
 You can check the changes from this command below:
 
 ```bash
-docker service ls```
+docker service ls
+```
 
 ###4. Administration guide
 
@@ -143,40 +152,45 @@ Here are some administration commands to check the containers and deployment env
    1. To check all of the containers use:
 
 ```bash
-docker ps -a```
+docker ps -a
+```
 	
 
    2. To check the list of services use:
 
 ```bah
-docker service ls```
+docker service ls
+```
 	
 
    2. To check the status of containers in a stack
 
 ```bash
-docker stack ps <serice_name>```
+docker stack ps <serice_name>
+```
 	
 
    3. To check the status of running containers in a stack
 
 ```bash
-docker stack ps -f "desired-state=running" <stack name>```
+docker stack ps -f "desired-state=running" <stack name>
+```
 	
 
    4. To check resource usage of containers 
 
 ```bash
-docker stats```
-	
+docker stats
+```
 
    5. To check the status of nodes
 
 ```bash
-docker node ls```
-	
+docker node ls
+```	
 
    6. To connect the container use
 
 ```bash
-docker exec -it  <container name>  bash```
+docker exec -it  <container name>  bash
+```
