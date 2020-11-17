@@ -70,7 +70,7 @@ curl https://quasar-jaguar.xeba.tech/apiv1/healths
 ```
 	
 
-###2. Swarm mode and add a new node to swarm
+### 2. Swarm mode and add a new node to swarm
 
 We may want to make our deployment environment bigger for any purpose. Here we can add another node to this swarm.
 Like the previous, we need to run some very simple steps which are:
@@ -92,13 +92,13 @@ docker node ls
 3. All we need to do is to join the new node as a manager or worker to the first node or first deployment environment.
 
 
-#####worker
+##### worker
 	
 ```bash
 docker swarm join-token worker
 ```
 
-#####manager
+##### manager
 	
 ```bash
 docker swarm join-token manage
